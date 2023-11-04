@@ -5,9 +5,9 @@ namespace HalloGames.RavensRain.Gameplay.Player.Movement
 {
     public class PlayerRotator : MonoBehaviour
     {
-        private IInputService _inputService;
+        private IValueInput _inputService;
 
-        public void InitInput(IInputService inputService)
+        public void InitInput(IValueInput inputService)
         {
             _inputService = inputService;
         }

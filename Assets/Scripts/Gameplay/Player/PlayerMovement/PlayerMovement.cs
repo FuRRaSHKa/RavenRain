@@ -1,24 +1,27 @@
 using HalloGames.RavensRain.Management.Input;
+using System;
 using UnityEngine;
 
 namespace HalloGames.RavensRain.Gameplay.Player.Movement
 {
-
     public class PlayerMovement : MonoBehaviour
     {
+        [SerializeField] private PlayerEntity _playerEntity;
+
         [Header("Input Settings")]
         [SerializeField] private float _smoothInputSpeed = 1;
 
         [Header("Ground Movement")]
-        [SerializeField] private float _walkSpeed;
-        [SerializeField] private float _runSpeed;
+        [SerializeField] private float _runSpeedCoeff;
 
         [Header("Dash movement")]
-        [SerializeField] private float _dashSpeed;
+        [SerializeField] private float _dashSpeedCoeff;
         [SerializeField] private float _dashDuration;
+        [SerializeField] private float _dashCooldown;
         [SerializeField] private AnimationCurve _slideSpeedCurve;
 
-        private IInputService _inputService;
+        private DashController _dashController;
+        private IValueInput _inputService;
         private CharacterController _characterController;
 
         private Vector3 _velocity;
@@ -27,34 +30,32 @@ namespace HalloGames.RavensRain.Gameplay.Player.Movement
         private Vector2 _smoothInputVelocity;
 
         private float _dashTime;
+        private float _speed;
 
         private bool _isDash = false;
         private bool _isRun = false;
 
+        public event Action OnDashEnd;
+
         private void Awake()
         {
+            _dashController = new DashController(_dashCooldown);
             _characterController = GetComponent<CharacterController>();
+
+            _playerEntity.CharacterDataWrapper.OnStatChanged += (stat) => CalculateSpeed();
+
+            CalculateSpeed();
         }
 
-        public void InitInput(IInputService inputService)
+        private void CalculateSpeed()
+        {
+            _speed = _playerEntity.CharacterDataWrapper.GetValue(Characters.Stats.StatTypesEnum.Speed);
+        }
+
+        public void InitInput(IValueInput inputService)
         {
             _inputService = inputService;
-
-            inputService.OnDashPress += () =>
-            {
-                if (_isDash)
-                    return;
-
-                _dashTime = 0;
-
-                _dashDirection = _movement;
-                _isDash = true;
-            };
-
-            inputService.OnRunPress += () => _isRun = true;
-            inputService.OnRunErased += () => _isRun = false;
         }
-
 
         private void Update()
         {
@@ -64,6 +65,25 @@ namespace HalloGames.RavensRain.Gameplay.Player.Movement
                 GroundMovement();
         }
 
+        public void SetRun(bool value)
+        {
+            _isRun = value;
+        }
+
+        public void SetDash(bool value)
+        {
+            if (value && !_dashController.IsAbleToDash())
+            {
+                OnDashEnd?.Invoke();
+                return;
+            }
+
+            _dashDirection = _movement.normalized;
+            _dashTime = 0;
+
+            _isDash = value;
+        }
+
         private void DashMovement()
         {
             Vector3 tempVelocity;
@@ -71,7 +91,7 @@ namespace HalloGames.RavensRain.Gameplay.Player.Movement
 
             if (_dashDuration > _dashTime)
             {
-                tempVelocity = _dashDirection * _dashSpeed * _slideSpeedCurve.Evaluate(_dashTime);
+                tempVelocity = _dashDirection * _speed * _dashSpeedCoeff * _slideSpeedCurve.Evaluate(_dashTime);
 
                 _velocity.x = tempVelocity.x;
                 _velocity.z = tempVelocity.y;
@@ -80,6 +100,8 @@ namespace HalloGames.RavensRain.Gameplay.Player.Movement
                 return;
             }
 
+            _dashController.DashEnded();
+            OnDashEnd?.Invoke();
             _isDash = false;
         }
 
@@ -88,11 +110,12 @@ namespace HalloGames.RavensRain.Gameplay.Player.Movement
             Vector2 input = _inputService.MoveValue;
             _movement = Vector2.SmoothDamp(_movement, input, ref _smoothInputVelocity, 1 / _smoothInputSpeed);
 
-            Vector3 tempVelocity;
+
+            float curSpeed = _speed;
             if (_isRun)
-                tempVelocity = new Vector3(_movement.x * _runSpeed, 0, _movement.y * _runSpeed);
-            else
-                tempVelocity = new Vector3(_movement.x * _walkSpeed, 0, _movement.y * _walkSpeed);
+                curSpeed *= _runSpeedCoeff;
+
+            Vector3 tempVelocity = new Vector3(_movement.x * curSpeed, 0, _movement.y * curSpeed);
 
             _velocity.x = tempVelocity.x;
             _velocity.z = tempVelocity.z;

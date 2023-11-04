@@ -22,7 +22,7 @@ namespace HalloGames.RavensRain.Management.Level
 
         private void InitGame()
         {
-            _playerInitilizer.InitPlayer(_serviceProvider.GetService<IInputService>());
+            _playerInitilizer.InitPlayer(_serviceProvider.GetService<IActionInput>(), _serviceProvider.GetService<IValueInput>());
         }
     }
 

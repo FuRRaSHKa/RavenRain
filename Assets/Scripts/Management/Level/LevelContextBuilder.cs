@@ -6,7 +6,7 @@ namespace HalloGames.RavensRain.Management.Level
 {
     public class LevelContextBuilder : MonoBehaviour
     {
-        [SerializeField] private PlayerInputController _inputController;
+        [SerializeField] private InputController _inputController;
 
         private ServiceProvider _serviceProvider;
 
@@ -19,7 +19,8 @@ namespace HalloGames.RavensRain.Management.Level
         {
             _serviceProvider = new ServiceProvider();
 
-            _serviceProvider.AddService<IInputService>(_inputController);
+            _serviceProvider.AddService<IValueInput>(_inputController);
+            _serviceProvider.AddService<IActionInput>(_inputController);
         }
 
         public IServiceProvider GetServiceProvider()

@@ -6,4 +6,12 @@ namespace HalloGames.Architecture.StateMachine
 
         public void Exit();
     }
+
+    public interface IPriorityState : IState
+    {
+        public int Priority
+        {
+            get;
+        }
+    }
 }

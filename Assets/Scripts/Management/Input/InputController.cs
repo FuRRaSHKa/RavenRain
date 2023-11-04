@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace HalloGames.RavensRain.Management.Input
 {
-    public class PlayerInputController : MonoBehaviour, IInputService
+    public class InputController : MonoBehaviour, IActionInput, IValueInput
     {
         [SerializeField] private BackgroundRaycaster _backgroundRaycaster;
 
@@ -70,14 +70,17 @@ namespace HalloGames.RavensRain.Management.Input
         }
     }
 
-    public interface IInputService : IService
+    public interface IActionInput : IService
     {
         public event Action OnLeftFirePress;
         public event Action OnRightFirePress;
         public event Action OnDashPress;
         public event Action OnRunErased;
         public event Action OnRunPress;
+    }
 
+    public interface IValueInput : IService
+    {
         public Vector2 MoveValue
         {
             get;
