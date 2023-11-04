@@ -7,6 +7,7 @@ namespace HalloGames.RavensRain.Management.Input
     public class BackgroundRaycaster : MonoBehaviour
     {
         [SerializeField] private LayerMask _backgroundLayer;
+        [SerializeField] private float _distance;
 
         private Camera _camera;
         private Vector3 _pos;
@@ -24,7 +25,7 @@ namespace HalloGames.RavensRain.Management.Input
 
             RaycastHit raycastHit;
 
-            if (Physics.Raycast(ray, out raycastHit, 30, _backgroundLayer))
+            if (Physics.Raycast(ray, out raycastHit, _distance, _backgroundLayer))
                 _pos = raycastHit.point;
         }
 

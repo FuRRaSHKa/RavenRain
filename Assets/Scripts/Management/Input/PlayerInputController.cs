@@ -16,6 +16,7 @@ namespace HalloGames.RavensRain.Management.Input
         public event Action OnRunErased;
         public event Action OnRunPress;
         public event Action OnUtilityPress;
+        public event Action OnPickUpPress;
 
         public Vector2 MoveValue
         {
@@ -25,7 +26,7 @@ namespace HalloGames.RavensRain.Management.Input
             }
         }
 
-        public Vector2 PlayerMouseWorldPos
+        public Vector3 PlayerMouseWorldPos
         {
             get
             {
@@ -82,7 +83,7 @@ namespace HalloGames.RavensRain.Management.Input
             get;
         }
 
-        public Vector2 PlayerMouseWorldPos
+        public Vector3 PlayerMouseWorldPos
         {
             get;
         }
