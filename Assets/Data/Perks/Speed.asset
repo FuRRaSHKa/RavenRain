@@ -9,12 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 34b9f5a99733e6a459300658448d2a5e, type: 3}
-  m_Name: WeaponData
+  m_Script: {fileID: 11500000, guid: 2643a20921e00994589dba8341e5c203, type: 3}
+  m_Name: Speed
   m_EditorClassIdentifier: 
-  _damageCoeff: 1
-  _bulletsAmmount: 10
-  _randomDirectionCoeff: 0.421
-  _rateOfFire: 1
-  _lifeTime: 1
-  _bulletSpeed: 50
+  _value: 2
+  _modifyType: 1
+  _statTypes: 1

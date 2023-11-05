@@ -6,7 +6,7 @@ namespace HalloGames.RavensRain.Gameplay.Characters
 {
     public class CharacterPerkHandler : MonoBehaviour
     {
-        private Dictionary<string, IPerk> _perks;
+        private Dictionary<string, IPerk> _perks = new Dictionary<string, IPerk>();
 
         public void AddPerk(string name, IPerk perk)
         {

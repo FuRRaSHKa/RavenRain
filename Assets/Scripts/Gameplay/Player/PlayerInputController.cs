@@ -1,12 +1,13 @@
+using HalloGames.RavensRain.Gameplay.Player.Interaction;
 using HalloGames.RavensRain.Gameplay.Player.Movement;
 using HalloGames.RavensRain.Gameplay.Player.States;
-using HalloGames.RavensRain.Gameplay.Player.Weapon;
 using HalloGames.RavensRain.Management.Input;
 using UnityEngine;
 
 public class PlayerInputController : MonoBehaviour
 {
     [SerializeField] private PlayerStateController _stateController;
+    [SerializeField] private PlayerInteractionController _interactionController;
     [SerializeField] private PlayerMovement _playerMovement;
     
     private IActionInput _actionInput;
@@ -26,6 +27,13 @@ public class PlayerInputController : MonoBehaviour
 
         _actionInput.OnLeftFirePress += FirePressed;
         _actionInput.OnLeftFireErase += FireErased;
+
+        _actionInput.OnPickUpPress += PickUp;
+    }
+
+    private void PickUp()
+    {
+        _interactionController.PickUp();
     }
 
     private void FirePressed()

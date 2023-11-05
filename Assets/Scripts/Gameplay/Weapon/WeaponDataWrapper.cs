@@ -43,9 +43,10 @@ namespace HalloGames.RavensRain.Gameplay.Weapon
             if (targetValue == StatTypesEnum.Damage)
                 _currentDamage = _characterEntity.CharacterDataWrapper.GetValue(StatTypesEnum.Damage) * _weaponData.DamageCoeff;
             if (targetValue == StatTypesEnum.RoF)
-                _roF = _characterEntity.CharacterDataWrapper.GetValue(StatTypesEnum.Damage) * _weaponData.DamageCoeff;
-
-            OnDataUpdated?.Invoke();
+            {
+                _roF = _characterEntity.CharacterDataWrapper.GetValue(StatTypesEnum.RoF) * _weaponData.RateOfFire;
+                OnDataUpdated?.Invoke();
+            }
         }
 
         public ProjectileStruct GetWeaponStruct()

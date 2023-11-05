@@ -55,6 +55,7 @@ namespace HalloGames.RavensRain.Management.Input
             _inputActions.Player.Run.canceled += (ctx) => OnRunErased?.Invoke();
             _inputActions.Player.Run.performed += (ctx) => OnRunPress?.Invoke();
             _inputActions.Player.Utility.performed += (ctx) => OnUtilityPress?.Invoke();
+            _inputActions.Player.PickUp.performed += (ctx) => OnPickUpPress?.Invoke();
 
             _inputActions.Enable();
         }
@@ -68,6 +69,7 @@ namespace HalloGames.RavensRain.Management.Input
             OnRunErased = null;
             OnRunPress = null;
             OnUtilityPress = null;
+            OnPickUpPress = null;
 
             _inputActions.Disable();
         }
