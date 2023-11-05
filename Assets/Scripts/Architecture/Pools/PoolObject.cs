@@ -11,6 +11,7 @@ namespace HalloGames.Architecture.PoolSystem
         private Routine _disableObjectRoutine;
 
         public event Action<PoolObject> OnPoolReturn;
+        public event Action OnObjectSpawned;
 
         public bool EnableToSpawn => _enableToSpawn;
 
@@ -51,6 +52,7 @@ namespace HalloGames.Architecture.PoolSystem
 
             _enableToSpawn = false;
             gameObject.SetActive(true);
+            OnObjectSpawned?.Invoke();
         }
     }
 }

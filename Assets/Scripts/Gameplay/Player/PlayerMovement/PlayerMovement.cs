@@ -1,3 +1,4 @@
+using HalloGames.RavensRain.Gameplay.Characters.Stats;
 using HalloGames.RavensRain.Management.Input;
 using System;
 using UnityEngine;
@@ -42,14 +43,19 @@ namespace HalloGames.RavensRain.Gameplay.Player.Movement
             _dashController = new DashController(_dashCooldown);
             _characterController = GetComponent<CharacterController>();
 
-            _playerEntity.CharacterDataWrapper.OnStatChanged += (stat) => CalculateSpeed();
+            _playerEntity.CharacterDataWrapper.OnStatChanged += CalculateSpeed;
 
-            CalculateSpeed();
         }
 
-        private void CalculateSpeed()
+        private void Start()
         {
-            _speed = _playerEntity.CharacterDataWrapper.GetValue(Characters.Stats.StatTypesEnum.Speed);
+            CalculateSpeed(StatTypesEnum.Speed);
+        }
+
+        private void CalculateSpeed(StatTypesEnum targetValue)
+        {
+            if (targetValue == StatTypesEnum.Speed)
+                _speed = _playerEntity.CharacterDataWrapper.GetValue(StatTypesEnum.Speed);
         }
 
         public void InitInput(IValueInput inputService)

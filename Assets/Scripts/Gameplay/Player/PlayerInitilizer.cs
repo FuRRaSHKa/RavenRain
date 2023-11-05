@@ -1,5 +1,8 @@
 using HalloGames.RavensRain.Gameplay.Player.Movement;
 using HalloGames.RavensRain.Gameplay.Player.States;
+using HalloGames.RavensRain.Gameplay.Player.Weapon;
+using HalloGames.RavensRain.Gameplay.Weapon;
+using HalloGames.RavensRain.Management.Factories;
 using HalloGames.RavensRain.Management.Input;
 using UnityEngine;
 
@@ -11,12 +14,14 @@ namespace HalloGames.RavensRain.Gameplay.Player
         [SerializeField] private PlayerMovement _playerMovement;
         [SerializeField] private PlayerRotator _playerRotator;
         [SerializeField] private PlayerInputController _playerInputController;
+        [SerializeField] private PlayerWeaponInitilizer _playerWeaponInitilizer;
 
-        public void InitPlayer(IActionInput actionInput, IValueInput valueInput)
+        public void InitPlayer(IActionInput actionInput, IValueInput valueInput, IProjectileFactory projectileFactory)
         {
             _playerMovement.InitInput(valueInput);
             _playerRotator.InitInput(valueInput);
             _playerInputController.InitInput(actionInput);
+            _playerWeaponInitilizer.InitWeapon(projectileFactory, valueInput);
         }
 
     }

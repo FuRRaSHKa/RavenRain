@@ -6,13 +6,17 @@ namespace HalloGames.RavensRain.Gameplay.Weapon
     public class WeaponData : ScriptableObject
     {
         [SerializeField] private float _damageCoeff;
-        [SerializeField] private float _bulletsAmmount;
-        [SerializeField] private float _randomDirectionCoeff;
+        [SerializeField] private int _bulletsAmmount;
+        [SerializeField, Range(0, 1)] private float _randomDirectionCoeff;
         [SerializeField] private float _rateOfFire;
-    
+        [SerializeField] private float _lifeTime;
+        [SerializeField] private float _bulletSpeed;
+
         public float DamageCoeff => _damageCoeff;
-        public float BulletsAmmount => _bulletsAmmount;
+        public int BulletsAmmount => _bulletsAmmount;
         public float RandomDirectionCoeff => _randomDirectionCoeff;
         public float RateOfFire => _rateOfFire;
+        public float LifeTime => _lifeTime;
+        public float BulletSpeed => _bulletSpeed;
     }
 }

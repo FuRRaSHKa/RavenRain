@@ -11,6 +11,7 @@ namespace HalloGames.RavensRain.Management.Input
         private CustomInput _inputActions;
 
         public event Action OnLeftFirePress;
+        public event Action OnLeftFireErase;
         public event Action OnRightFirePress;
         public event Action OnDashPress;
         public event Action OnRunErased;
@@ -48,6 +49,7 @@ namespace HalloGames.RavensRain.Management.Input
         private void InitInput()
         {
             _inputActions.Player.LeftFire.performed += (ctx) => OnLeftFirePress?.Invoke();
+            _inputActions.Player.LeftFire.canceled += (ctx) => OnLeftFireErase?.Invoke();
             _inputActions.Player.RightFire.performed += (ctx) => OnRightFirePress?.Invoke();
             _inputActions.Player.Dash.performed += (ctx) => OnDashPress?.Invoke();
             _inputActions.Player.Run.canceled += (ctx) => OnRunErased?.Invoke();
@@ -60,6 +62,7 @@ namespace HalloGames.RavensRain.Management.Input
         public void ResetInput()
         {
             OnLeftFirePress = null;
+            OnLeftFireErase = null;
             OnRightFirePress = null;
             OnDashPress = null;
             OnRunErased = null;
@@ -73,10 +76,14 @@ namespace HalloGames.RavensRain.Management.Input
     public interface IActionInput : IService
     {
         public event Action OnLeftFirePress;
+        public event Action OnLeftFireErase;
         public event Action OnRightFirePress;
         public event Action OnDashPress;
         public event Action OnRunErased;
         public event Action OnRunPress;
+        public event Action OnUtilityPress;
+        public event Action OnPickUpPress;
+
     }
 
     public interface IValueInput : IService

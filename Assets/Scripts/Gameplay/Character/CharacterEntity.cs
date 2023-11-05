@@ -9,6 +9,7 @@ namespace HalloGames.RavensRain.Gameplay.Characters
         [SerializeField] private CharacterDataWrapper _characterDataWrapper;
 
         public CharacterDataWrapper CharacterDataWrapper => _characterDataWrapper;
+        public WeaponDataWrapper WeaponDataWrapper => _weapon;
     }
 }
 

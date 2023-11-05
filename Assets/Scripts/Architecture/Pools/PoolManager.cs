@@ -10,19 +10,19 @@ namespace HalloGames.Architecture.PoolSystem
         [SerializeField] private Transform _defaultSpawnPoint;
         [SerializeField] private PoolPair[] _poolPairs;
 
-        private Dictionary<string, ObjectPool> _pools;
+        private Dictionary<PoolObject, ObjectPool> _pools;
 
         protected override void OverridedAwake()
         {
-            _pools = new Dictionary<string, ObjectPool>(_poolPairs.Length);
+            _pools = new Dictionary<PoolObject, ObjectPool>(_poolPairs.Length);
             foreach (var pair in _poolPairs)
             {
                 ObjectPool pool = new ObjectPool(pair.prefab, _defaultSpawnPoint, pair.PrebakedCount, pair.KeepWhenSceneChanged);
-                _pools.Add(pair.Name, pool);
+                _pools.Add(pair.prefab, pool);
             }
         }
 
-        public ObjectPool this[string key]
+        public ObjectPool this[PoolObject key]
         {
             get
             {

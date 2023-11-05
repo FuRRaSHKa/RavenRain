@@ -39,11 +39,13 @@ namespace HalloGames.RavensRain.Gameplay.Characters
         public void AddMod(StatTypesEnum targetValue, string key, IStatModifyer statModifyer)
         {
             _statMods[targetValue].Add(key, statModifyer);
+            OnStatChanged?.Invoke(targetValue);
         }
 
         public void RemoveMod(StatTypesEnum targetValue, string key)
         {
             _statMods[targetValue].Remove(key);
+            OnStatChanged?.Invoke(targetValue);
         }
 
         public float GetRawValue(StatTypesEnum statTypesEnum)

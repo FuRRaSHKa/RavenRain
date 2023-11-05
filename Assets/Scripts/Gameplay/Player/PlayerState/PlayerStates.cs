@@ -45,6 +45,16 @@ namespace HalloGames.RavensRain.Gameplay.Player.States
         }
 
         public override int Priority => 1;
+    
+        public override void Enter()
+        {
+            playerEntity.WeaponController.EnableWeapon();
+        }
+
+        public override void Exit()
+        {
+            playerEntity.WeaponController.DisableWeapon();
+        }
     }
 
     public class RunState : PlayerState

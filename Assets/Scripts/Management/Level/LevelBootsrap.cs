@@ -1,5 +1,6 @@
 using HalloGames.Architecture.Services;
 using HalloGames.RavensRain.Gameplay.Player;
+using HalloGames.RavensRain.Management.Factories;
 using HalloGames.RavensRain.Management.Input;
 using UnityEngine;
 
@@ -22,7 +23,7 @@ namespace HalloGames.RavensRain.Management.Level
 
         private void InitGame()
         {
-            _playerInitilizer.InitPlayer(_serviceProvider.GetService<IActionInput>(), _serviceProvider.GetService<IValueInput>());
+            _playerInitilizer.InitPlayer(_serviceProvider.GetService<IActionInput>(), _serviceProvider.GetService<IValueInput>(), _serviceProvider.GetService<IProjectileFactory>());
         }
     }
 
