@@ -15,7 +15,7 @@ MonoBehaviour:
   perkDescription:
     Name: Attack Speed
     ShortDescription: Attack Speed increase
-    LoreDescription: 
+    LoreDescription: Lore
     Sprite: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
   _value: 2
   _modifyType: 1

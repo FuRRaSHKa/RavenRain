@@ -21,7 +21,7 @@ MonoBehaviour:
   _descriptionStruct:
     Name: PP
     ShortDescription: PP
-    LoreDescription: 
+    LoreDescription: Lore
     Sprite: {fileID: 0}
   _mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
   _materials:

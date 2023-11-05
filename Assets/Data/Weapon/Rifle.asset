@@ -21,7 +21,7 @@ MonoBehaviour:
   _descriptionStruct:
     Name: Rifle
     ShortDescription: Rifle
-    LoreDescription: 
+    LoreDescription: Lore
     Sprite: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
   _mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
   _materials:

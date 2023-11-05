@@ -10,6 +10,8 @@ namespace HalloGames.RavensRain.Gameplay.Perk.Data
     {
         [SerializeField] protected DescriptionStruct perkDescription;
 
+        public DescriptionStruct DescriptionStruct => perkDescription;
+
         public abstract IPerk GetPerk(CharacterEntity characterEntity);
     }
 
