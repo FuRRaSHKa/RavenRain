@@ -1,5 +1,6 @@
 using HalloGames.RavensRain.Gameplay.Characters;
 using HalloGames.RavensRain.Gameplay.Characters.Stats;
+using HalloGames.RavensRain.Gameplay.Perk.Data;
 using UnityEngine;
 
 namespace HalloGames.RavensRain.Gameplay.Perk.Logic
@@ -11,7 +12,7 @@ namespace HalloGames.RavensRain.Gameplay.Perk.Logic
         private readonly float _modValue;
         protected readonly StatTypesEnum _type; 
 
-        public ChangeStatPerk(CharacterEntity characterEntity, ModifyType modifyType, string name, float modValue, StatTypesEnum type) : base(characterEntity)
+        public ChangeStatPerk(CharacterEntity characterEntity, DescriptionStruct description ,ModifyType modifyType, string name, float modValue, StatTypesEnum type) : base(characterEntity, description)
         {
             _modValue = modValue;
             _name = name;

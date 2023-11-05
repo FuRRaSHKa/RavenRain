@@ -1,5 +1,6 @@
 using HalloGames.RavensRain.Gameplay.Characters;
 using HalloGames.RavensRain.Gameplay.Characters.Stats;
+using HalloGames.RavensRain.Gameplay.Perk.Data;
 using HalloGames.RavensRain.Gameplay.Weapon.Projectile;
 using System;
 using UnityEngine;
@@ -22,17 +23,24 @@ namespace HalloGames.RavensRain.Gameplay.Weapon
         public float RoF => _roF;
 
         public event Action OnDataUpdated;
-        
+        public event Action<DescriptionStruct> OnWeaponChanged;
+
         private void Awake()
         {
             _characterEntity.CharacterDataWrapper.OnStatChanged += CalculateStats;
         }
 
-        public void SetWeaponData(WeaponData weaponData)
+        public WeaponData SetWeaponData(WeaponData weaponData, bool showNotify = true)
         {
+            WeaponData tempWeapon = _weaponData;
             _weaponData = weaponData;
             CalculateStats(StatTypesEnum.Damage);
             CalculateStats(StatTypesEnum.RoF);
+
+            if (showNotify)
+                OnWeaponChanged?.Invoke(weaponData.DescriptionStruct);
+
+            return tempWeapon;
         }
 
         private void CalculateStats(StatTypesEnum targetValue)

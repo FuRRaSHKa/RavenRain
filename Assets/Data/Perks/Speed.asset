@@ -12,6 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2643a20921e00994589dba8341e5c203, type: 3}
   m_Name: Speed
   m_EditorClassIdentifier: 
+  perkDescription:
+    Name: Speed
+    ShortDescription: Speed Increase
+    LoreDescription: 
+    Sprite: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
   _value: 2
   _modifyType: 1
   _statTypes: 1

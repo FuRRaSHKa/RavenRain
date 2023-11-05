@@ -16,7 +16,7 @@ namespace HalloGames.RavensRain.Gameplay.Player.Weapon
         {
             _projectileShooter.InitProjectileFactory(projectileFactory);
             _weaponController.InstallContex(_projectileShooter, valueInput);
-            _dataWrapper.SetWeaponData(_defaultWeaponData);
+            _dataWrapper.SetWeaponData(_defaultWeaponData, false);
         }
     }
 

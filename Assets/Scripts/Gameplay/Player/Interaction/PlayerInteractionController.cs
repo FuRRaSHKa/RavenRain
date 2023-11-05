@@ -20,8 +20,9 @@ namespace HalloGames.RavensRain.Gameplay.Player.Interaction
                 return;
 
             IPickable pickable = _pickablesInRadius.Last();
-            pickable.PickUp(_characterEntity);
-            _pickablesInRadius.Remove(pickable);
+            pickable.PickUp(_characterEntity, out bool needToRemove);
+            if (needToRemove)
+                _pickablesInRadius.Remove(pickable);
         }
 
         private void OnTriggerEnter(Collider other)
@@ -45,7 +46,7 @@ namespace HalloGames.RavensRain.Gameplay.Player.Interaction
 
     public interface IPickable
     {
-        public void PickUp(CharacterEntity characterEntity);
+        public void PickUp(CharacterEntity characterEntity, out bool needToRemove);
     }
 }
 

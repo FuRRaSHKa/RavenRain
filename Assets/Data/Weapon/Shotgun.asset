@@ -10,11 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 34b9f5a99733e6a459300658448d2a5e, type: 3}
-  m_Name: WeaponData
+  m_Name: Shotgun
   m_EditorClassIdentifier: 
   _damageCoeff: 1
-  _bulletsAmmount: 10
-  _randomDirectionCoeff: 0.421
+  _bulletsAmmount: 6
+  _randomDirectionCoeff: 0.558
   _rateOfFire: 1
   _lifeTime: 1
   _bulletSpeed: 50
+  _descriptionStruct:
+    Name: Shotgun
+    ShortDescription: Shotgun
+    LoreDescription: 
+    Sprite: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
+  _mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  _materials:
+  - {fileID: -6922793697723135513, guid: b327697890e83e845b89dc0c308dc6f2, type: 3}

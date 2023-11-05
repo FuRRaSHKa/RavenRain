@@ -9,8 +9,9 @@ namespace HalloGames.RavensRain.Gameplay.Perk
     {
         [SerializeField] private PerkData _perkData;
 
-        public void PickUp(CharacterEntity characterEntity)
+        public void PickUp(CharacterEntity characterEntity, out bool needToRemove)
         {
+            needToRemove = true;
             IPerk perk = _perkData.GetPerk(characterEntity);
             characterEntity.PerkHandler.AddPerk(_perkData.name, perk);
 
