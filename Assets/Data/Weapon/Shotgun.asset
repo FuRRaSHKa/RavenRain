@@ -15,7 +15,7 @@ MonoBehaviour:
   _damageCoeff: 1
   _bulletsAmmount: 6
   _randomDirectionCoeff: 0.558
-  _rateOfFire: 1
+  _rateOfFire: 1.52
   _lifeTime: 1
   _bulletSpeed: 50
   _descriptionStruct:
@@ -23,6 +23,7 @@ MonoBehaviour:
     ShortDescription: Shotgun
     LoreDescription: "\u044B\u044B\u044B\u044B\u044B\u044B\u044B\u044B\u044B\u044B\u044B\u044B\u044B\u044B\u044B\u044B\u044B\u044B\u044B\u044B\u044B\u044B\u044B"
     Sprite: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
+    Color: {r: 0, g: 0, b: 0, a: 0}
   _mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
   _materials:
   - {fileID: -6922793697723135513, guid: b327697890e83e845b89dc0c308dc6f2, type: 3}

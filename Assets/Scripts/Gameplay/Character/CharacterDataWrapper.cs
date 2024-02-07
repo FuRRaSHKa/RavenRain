@@ -16,6 +16,12 @@ namespace HalloGames.RavensRain.Gameplay.Characters
 
         public event Action<StatTypesEnum> OnStatChanged;
 
+        public void SetLevel(int level)
+        {
+            _currentLevel = level;
+            OnStatChanged?.Invoke(StatTypesEnum.All);
+        }
+
         private void Awake()
         {
             _statMods = new Dictionary<StatTypesEnum, Dictionary<string, IStatModifyer>>()
@@ -24,15 +30,22 @@ namespace HalloGames.RavensRain.Gameplay.Characters
                 { StatTypesEnum.Speed, new Dictionary<string, IStatModifyer>() },
                 { StatTypesEnum.Damage, new Dictionary<string, IStatModifyer>()},
                 { StatTypesEnum.Armor, new Dictionary<string, IStatModifyer>() },
-                { StatTypesEnum.RoF, new Dictionary<string, IStatModifyer>()}
+                { StatTypesEnum.RoF, new Dictionary<string, IStatModifyer>()},
+                { StatTypesEnum.Crit, new Dictionary<string, IStatModifyer>()}
             };
+        }
+
+        public void UpdateModValue(StatTypesEnum statTypesEnum)
+        {
+            OnStatChanged?.Invoke(statTypesEnum);
         }
 
         public float GetValue(StatTypesEnum statType)
         {
             float value = GetRawValue(statType);
             var mods = _statMods[statType].Values.ToList();
-            mods.ForEach(f => value += f.ModifyStat(value));
+
+            mods.ForEach(f => value = f.ModifyStat(value));
             return value;
         }
 
@@ -66,6 +79,9 @@ namespace HalloGames.RavensRain.Gameplay.Characters
 
                 case StatTypesEnum.RoF:
                     return _characterData.BaseRoF + _characterData.RoFPerLevel * _currentLevel;
+
+                case StatTypesEnum.Crit:
+                    return .1f;
             }
 
             return 0;
@@ -82,6 +98,8 @@ namespace HalloGames.RavensRain.Gameplay.Characters.Stats
         Speed,
         Damage,
         Armor,
-        RoF
+        RoF,
+        Crit,
+        All
     }
 }

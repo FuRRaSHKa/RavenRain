@@ -8,21 +8,24 @@ namespace HalloGames.RavensRain.Gameplay.Characters.Stats
     public class CharacterHealth : MonoBehaviour, IDamageable
     {
         [SerializeField] private CharacterEntity _character;
+        [SerializeField] private bool _restore;
 
         private float _maxHealth;
         private float _currentHealth;
+        private float _armor;
 
         private bool _isAlive;
 
         public float MaxHealth => _maxHealth;
         public float CurrentHealth => _currentHealth;
 
-        public event Action OnDeathEvent;
+        public event Action<CharacterEntity> OnDeathEvent;
         public event Action OnHealthChange;
+        public event Action OnDamage;
 
         private void Awake()
         {
-            _character.CharacterDataWrapper.OnStatChanged += UpdateValue;
+            _character.CharacterDataWrapper.OnStatChanged += UpdateValueHealht;
         }
 
         private void Start()
@@ -30,18 +33,38 @@ namespace HalloGames.RavensRain.Gameplay.Characters.Stats
             Rewive();
         }
 
+        private void Update()
+        {
+            if (_restore && _currentHealth < _maxHealth)
+            {
+                _currentHealth += 1 * Time.deltaTime;
+                _currentHealth = Mathf.Clamp(_currentHealth, 0, _maxHealth);
+                OnHealthChange?.Invoke();
+            }
+
+        }
+
         public void Rewive()
         {
             _isAlive = true;
-            UpdateValue(StatTypesEnum.Health);
+            UpdateValueHealht(StatTypesEnum.Health);
+            UpdateValueArmor(StatTypesEnum.Armor);
             _currentHealth = _maxHealth;
 
             OnHealthChange?.Invoke();
         }
 
-        private void UpdateValue(StatTypesEnum targetType)
+        private void UpdateValueArmor(StatTypesEnum targetType)
         {
-            if (targetType != StatTypesEnum.Health)
+            if (targetType != StatTypesEnum.Armor && targetType != StatTypesEnum.All)
+                return;
+
+            _armor = _character.CharacterDataWrapper.GetValue(StatTypesEnum.Armor);
+        }
+
+        private void UpdateValueHealht(StatTypesEnum targetType)
+        {
+            if (targetType != StatTypesEnum.Health && targetType != StatTypesEnum.All)
                 return;
 
             _maxHealth = _character.CharacterDataWrapper.GetValue(StatTypesEnum.Health);
@@ -53,14 +76,18 @@ namespace HalloGames.RavensRain.Gameplay.Characters.Stats
             if (!_isAlive)
                 return;
 
-            _currentHealth -= damage;
-            _currentHealth = Mathf.Clamp(damage, 0, _maxHealth);
+            damage = Mathf.Clamp(damage - _armor, 1f, damage);
 
-            if (_currentHealth == 0)
+            _currentHealth -= damage;
+            _currentHealth = Mathf.Clamp(_currentHealth, -1, _maxHealth);
+
+            if (_currentHealth <= 0)
             {
                 _isAlive = false;
-                OnDeathEvent?.Invoke();
+                OnDeathEvent?.Invoke(_character);
             }
+
+            OnDamage?.Invoke();
 
             OnHealthChange?.Invoke();
         }

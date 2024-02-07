@@ -15,6 +15,12 @@ namespace HalloGames.RavensRain.Gameplay.Enemy
         public void SetTarget(Transform target)
         {
             _target = target;
+            _navMeshAgent.enabled = true;
+        }
+
+        private void OnDisable()
+        {
+            _navMeshAgent.enabled = false;
         }
 
         private void FixedUpdate()

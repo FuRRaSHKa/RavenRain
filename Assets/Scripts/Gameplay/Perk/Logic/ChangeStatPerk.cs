@@ -2,18 +2,21 @@ using HalloGames.RavensRain.Gameplay.Characters;
 using HalloGames.RavensRain.Gameplay.Characters.Stats;
 using HalloGames.RavensRain.Gameplay.Perk.Data;
 using UnityEngine;
+using UnityEngine.Windows;
 
 namespace HalloGames.RavensRain.Gameplay.Perk.Logic
 {
     public class ChangeStatPerk : BasePerk
     {
         private readonly StatModifyer _statModifyer;
+        private readonly float _perStackValue;
         private readonly string _name;
         private readonly float _modValue;
-        protected readonly StatTypesEnum _type; 
+        private readonly StatTypesEnum _type;
 
-        public ChangeStatPerk(CharacterEntity characterEntity, DescriptionStruct description ,ModifyType modifyType, string name, float modValue, StatTypesEnum type) : base(characterEntity, description)
+        public ChangeStatPerk(CharacterEntity characterEntity, DescriptionStruct description, ModifyType modifyType, string name, float modValue, StatTypesEnum type, float perStackValue) : base(characterEntity, description)
         {
+            _perStackValue = perStackValue;
             _modValue = modValue;
             _name = name;
             _type = type;
@@ -33,7 +36,10 @@ namespace HalloGames.RavensRain.Gameplay.Perk.Logic
         public override void Stack()
         {
             stackCount++;
-            _statModifyer.SetValue(_modValue * stackCount);
+            float value = _modValue + stackCount * _perStackValue;
+
+            _statModifyer.SetValue(value);
+            characterEntity.CharacterDataWrapper.UpdateModValue(_type);
         }
     }
 

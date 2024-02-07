@@ -5,11 +5,11 @@ using UnityEngine;
 
 namespace HalloGames.RavensRain.Gameplay.Perk
 {
-    public class PerkObject : MonoBehaviour, IPickable
+    public class PerkObject : BasePickable
     {
         [SerializeField] private PerkData _perkData;
 
-        public void PickUp(CharacterEntity characterEntity, out bool needToRemove)
+        public override void PickUp(CharacterEntity characterEntity, out bool needToRemove)
         {
             needToRemove = true;
             IPerk perk = _perkData.GetPerk(characterEntity);
@@ -17,6 +17,11 @@ namespace HalloGames.RavensRain.Gameplay.Perk
 
             Destroy(gameObject);
         }
+    }
+
+    public abstract class BasePickable : MonoBehaviour, IPickable
+    {
+        public abstract void PickUp(CharacterEntity characterEntity, out bool needToRemove);
     }
 }
 

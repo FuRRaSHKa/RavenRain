@@ -8,9 +8,12 @@ namespace HalloGames.RavensRain.Gameplay.Player.Movement
     public class PlayerMovement : MonoBehaviour
     {
         [SerializeField] private PlayerEntity _playerEntity;
+        [SerializeField] private Animator _animator;
 
         [Header("Input Settings")]
         [SerializeField] private float _smoothInputSpeed = 1;
+        [SerializeField] private float _castWidth;
+        [SerializeField] private LayerMask groundMask;
 
         [Header("Ground Movement")]
         [SerializeField] private float _runSpeedCoeff;
@@ -25,7 +28,7 @@ namespace HalloGames.RavensRain.Gameplay.Player.Movement
         private IValueInput _inputService;
         private CharacterController _characterController;
 
-        private Vector3 _velocity;
+        private Vector3 _velocity = new Vector3(0, 0, 0);
         private Vector3 _dashDirection;
         private Vector2 _movement;
         private Vector2 _smoothInputVelocity;
@@ -33,6 +36,7 @@ namespace HalloGames.RavensRain.Gameplay.Player.Movement
         private float _dashTime;
         private float _speed;
 
+        private bool _isGrounded;
         private bool _isDash = false;
         private bool _isRun = false;
 
@@ -47,14 +51,33 @@ namespace HalloGames.RavensRain.Gameplay.Player.Movement
 
         }
 
+        private void Gravity()
+        {
+            if (!_isGrounded)
+                _velocity.y = -9;
+            else
+                _velocity.y = 0;
+        }
+
         private void Start()
         {
             CalculateSpeed(StatTypesEnum.Speed);
         }
 
+        private void CheckGround()
+        {
+            if (Physics.CheckSphere(transform.position, _castWidth, groundMask.value))
+            {
+                _isGrounded = true;
+                return;
+            }
+
+            _isGrounded = false;
+        }
+
         private void CalculateSpeed(StatTypesEnum targetValue)
         {
-            if (targetValue == StatTypesEnum.Speed)
+            if (targetValue == StatTypesEnum.Speed || targetValue == StatTypesEnum.All)
                 _speed = _playerEntity.CharacterDataWrapper.GetValue(StatTypesEnum.Speed);
         }
 
@@ -65,6 +88,9 @@ namespace HalloGames.RavensRain.Gameplay.Player.Movement
 
         private void Update()
         {
+            CheckGround();
+            Gravity();
+
             if (_isDash)
                 DashMovement();
             else
@@ -111,11 +137,20 @@ namespace HalloGames.RavensRain.Gameplay.Player.Movement
             _isDash = false;
         }
 
+        private void OnDrawGizmosSelected()
+        {
+            Gizmos.DrawSphere(transform.position, _castWidth);
+        }
+
         private void GroundMovement()
         {
             Vector2 input = _inputService.MoveValue;
             _movement = Vector2.SmoothDamp(_movement, input, ref _smoothInputVelocity, 1 / _smoothInputSpeed);
 
+            if (input.x != 0 || input.y != 0)
+                _animator.SetFloat("Walk", 1);
+            else
+                _animator.SetFloat("Walk", -1);
 
             float curSpeed = _speed;
             if (_isRun)

@@ -52,6 +52,22 @@ namespace HalloGames.RavensRain.UI.Joyrnal
             _loreElement.text = "";
         }
 
+
+        public void OpenMainScreen()
+        {
+            ScreenManager.Instance.OpenScreen<MainScreen>();
+        }
+
+        public override void Open()
+        {
+            gameObject.SetActive(true);
+        }
+
+        public override void Close()
+        {
+            gameObject.SetActive(false);
+        }
+
     }
 }
 

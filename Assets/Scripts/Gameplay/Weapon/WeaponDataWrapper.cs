@@ -16,6 +16,7 @@ namespace HalloGames.RavensRain.Gameplay.Weapon
         private WeaponData _weaponData;
 
         private float _currentDamage;
+        private float _currentCrit;
         private float _roF; 
 
         public int BulletAmmount => _weaponData.BulletsAmmount;
@@ -36,6 +37,7 @@ namespace HalloGames.RavensRain.Gameplay.Weapon
             _weaponData = weaponData;
             CalculateStats(StatTypesEnum.Damage);
             CalculateStats(StatTypesEnum.RoF);
+            CalculateStats(StatTypesEnum.Crit);
 
             if (showNotify)
                 OnWeaponChanged?.Invoke(weaponData.DescriptionStruct);
@@ -48,18 +50,22 @@ namespace HalloGames.RavensRain.Gameplay.Weapon
             if (_weaponData == null)
                 return;
 
-            if (targetValue == StatTypesEnum.Damage)
+            if (targetValue == StatTypesEnum.Damage || targetValue == StatTypesEnum.All)
                 _currentDamage = _characterEntity.CharacterDataWrapper.GetValue(StatTypesEnum.Damage) * _weaponData.DamageCoeff;
-            if (targetValue == StatTypesEnum.RoF)
+
+            if (targetValue == StatTypesEnum.RoF || targetValue == StatTypesEnum.All)
             {
                 _roF = _characterEntity.CharacterDataWrapper.GetValue(StatTypesEnum.RoF) * _weaponData.RateOfFire;
                 OnDataUpdated?.Invoke();
             }
+
+             if(targetValue == StatTypesEnum.Crit || targetValue == StatTypesEnum.All)
+                _currentCrit = _characterEntity.CharacterDataWrapper.GetValue(StatTypesEnum.Crit);
         }
 
         public ProjectileStruct GetWeaponStruct()
         {
-            return new ProjectileStruct(_currentDamage, _weaponData.BulletSpeed, _weaponData.LifeTime ,_targetLayer, _targetTag);
+            return new ProjectileStruct(_currentDamage, _weaponData.BulletSpeed, _weaponData.LifeTime ,_targetLayer, _targetTag, _currentCrit);
         }
     }
 }

@@ -59,15 +59,15 @@ namespace HalloGames.RavensRain.Management.ProjectileManagement
         {
             _raycastJob.Complete();
 
-            for (int i = 0; i < _projectiles.Count; i++)
+            for (int i = 0, j = 0; i < _results.Length && j < _projectiles.Count; j++, i++)
             {
                 if (_results[i].collider == null)
                     continue;
 
-                if (_projectiles[i].HandleCollision(_results[i].collider))
+                if (_projectiles[j].HandleCollision(_results[i].collider))
                 {
-                    _projectiles.RemoveAt(i);
-                    i--;
+                    _projectiles.RemoveAt(j);
+                    j--;
                 }
             }
         }

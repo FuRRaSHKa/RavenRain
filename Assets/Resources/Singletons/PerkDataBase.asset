@@ -12,10 +12,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47ad977e50fefa14983ef96466f8fb97, type: 3}
   m_Name: PerkDataBase
   m_EditorClassIdentifier: 
-  _weaponDatas:
-  - {fileID: 11400000, guid: be689160ec276ec4494438bf4bc0035c, type: 2}
-  - {fileID: 11400000, guid: c92f60dacde2a864d9f909c1b1d02470, type: 2}
-  - {fileID: 11400000, guid: da0e0dacb765ae647b19ab96d20a8b8e, type: 2}
+  _weaponDatas: []
   _perkDatas:
-  - {fileID: 11400000, guid: 28ca1cab1280df641ac39dfc12811db3, type: 2}
   - {fileID: 11400000, guid: 18a071acc45a90644bc6117ff9d40747, type: 2}
+  - {fileID: 11400000, guid: 3bc20d7bf8343964dafcbb01d4a4fed1, type: 2}
+  - {fileID: 11400000, guid: 9fd3ab6e408e0c94c94698120eb0f332, type: 2}
+  - {fileID: 11400000, guid: 28ca1cab1280df641ac39dfc12811db3, type: 2}
+  - {fileID: 11400000, guid: 61e1416c4a5e995478b643dde9a0a607, type: 2}
+  - {fileID: 11400000, guid: 14e06c61ff590e048a04e91e8f508656, type: 2}
+  - {fileID: 11400000, guid: 6cb9e5b074f0b924b9342b6fd20b9398, type: 2}
+  - {fileID: 11400000, guid: 074f8f5c8fe26294294d5ad16b487346, type: 2}
+  - {fileID: 11400000, guid: 8b57533b98334e64883e90384b4323cd, type: 2}
+  - {fileID: 11400000, guid: 1fd134bbe11a6b14e9b8851debfd42da, type: 2}
+  - {fileID: 11400000, guid: 27b17df13c088b644b20ebe198121d6a, type: 2}
+  - {fileID: 11400000, guid: 499a00e306e899947ad6d88a700c3613, type: 2}
+  - {fileID: 11400000, guid: 2e280345b7d42c04480b3b9ede560324, type: 2}
+  - {fileID: 11400000, guid: bb897bd6dbdd14949bc116268624b9f3, type: 2}
+  - {fileID: 11400000, guid: a062583f10cef94449d98ffbb98fa7de, type: 2}

@@ -11,14 +11,16 @@ namespace HalloGames.RavensRain.Gameplay.Weapon.Projectile
         public readonly float LifeTime;
         public readonly LayerMask TargetLayer;
         public readonly string TargetTag;
+        public readonly float CritChance;
 
-        public ProjectileStruct(float damage, float speed, float lifeTime, LayerMask targetLayer, string targetTag)
+        public ProjectileStruct(float damage, float speed, float lifeTime, LayerMask targetLayer, string targetTag, float critChange)
         {
             Damage = damage;
             Speed = speed;
             LifeTime = lifeTime;
             TargetLayer = targetLayer;
             TargetTag = targetTag;
+            CritChance = critChange;
         }
     }
 
@@ -53,7 +55,14 @@ namespace HalloGames.RavensRain.Gameplay.Weapon.Projectile
         public bool HandleCollision(Collider collider)
         {
             if (collider.CompareTag(_projectileStruct.TargetTag) && collider.TryGetComponent(out IDamageable damageable))
-                damageable.Damage(_projectileStruct.Damage);
+            {
+                float chance = Random.value;
+a                if (chance < _projectileStruct.CritChance)
+                    damageable.Damage(_projectileStruct.Damage * 2);
+                else
+                    damageable.Damage(_projectileStruct.Damage);
+            }
+
 
             Destroy();
             return true;

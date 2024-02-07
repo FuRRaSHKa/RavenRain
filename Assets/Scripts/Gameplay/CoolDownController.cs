@@ -7,6 +7,11 @@ namespace HalloGames.RavensRain.Gameplay.Utils
         private float _targetTime;
         private float _time;
 
+        public CoolDownController()
+        {
+            _time = 100;
+        }
+
         public void SetTime(float targetTime)
         {
             _targetTime = targetTime;

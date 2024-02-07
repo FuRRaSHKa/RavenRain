@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34b9f5a99733e6a459300658448d2a5e, type: 3}
+  m_Name: EnemyWeapon 1
+  m_EditorClassIdentifier: 
+  _damageCoeff: 0.5
+  _bulletsAmmount: 5
+  _randomDirectionCoeff: 0.738
+  _rateOfFire: 1
+  _lifeTime: 10
+  _bulletSpeed: 10
+  _descriptionStruct:
+    Name: PP
+    ShortDescription: PP
+    LoreDescription: Lore
+    Sprite: {fileID: 0}
+    Color: {r: 0, g: 0, b: 0, a: 0}
+  _mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+  _materials:
+  - {fileID: -876546973899608171, guid: b327697890e83e845b89dc0c308dc6f2, type: 3}

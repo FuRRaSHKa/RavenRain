@@ -13,10 +13,18 @@ MonoBehaviour:
   m_Name: AttackSpeed
   m_EditorClassIdentifier: 
   perkDescription:
-    Name: Attack Speed
-    ShortDescription: Attack Speed increase
-    LoreDescription: Lore
-    Sprite: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
-  _value: 2
+    Name: "\u042D\u043D\u0435\u0440\u0433\u0435\u0442\u0438\u043A"
+    ShortDescription: "\u0423\u0432\u0435\u043B\u0438\u0447\u0438\u0432\u0430\u0435\u0442
+      \u0441\u043A\u043E\u0440\u043E\u0441\u0442\u0440\u0435\u043B\u044C\u043D\u043E\u0441\u0442\u044C
+      \u043E\u0440\u0443\u0436\u0438\u044F"
+    LoreDescription: "\u0412\u043A\u0443\u0441 \u0432\u0441\u0435\u0445 \u043C\u043E\u0438\u0445
+      \u0431\u0435\u0441\u0441\u043E\u043D\u043D\u044B\u0445 \u043D\u043E\u0447\u0435\u0439,
+      \u043A\u043E\u0442\u043E\u0440\u044B\u0439 \u0441\u0442\u0430\u043D\u043E\u0432\u0438\u0442\u0441\u044F
+      \u0432\u043A\u0443\u0441\u043E\u043C \u043E\u0434\u043D\u043E\u0433\u043E \u0431\u0435\u0441\u043A\u043E\u043D\u0435\u0447\u043D\u043E
+      \u0434\u043B\u0438\u043D\u043D\u043E\u0433\u043E \u0434\u043D\u044F."
+    Sprite: {fileID: 21300000, guid: 121bab6aaec8ae84a9986877402a6b96, type: 3}
+    Color: {r: 1, g: 1, b: 1, a: 1}
+  _value: 1.1
   _modifyType: 1
+  _perStackValue: 0.1
   _statTypes: 4

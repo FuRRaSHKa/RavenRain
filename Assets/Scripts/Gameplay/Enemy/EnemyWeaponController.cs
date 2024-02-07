@@ -1,18 +1,27 @@
-using System.Collections;
-using System.Collections.Generic;
+using HalloGames.RavensRain.Gameplay.Weapon;
 using UnityEngine;
 
-public class EnemyWeaponController : MonoBehaviour
+namespace HalloGames.RavensRain.Gameplay.Enemy
 {
-    // Start is called before the first frame update
-    void Start()
+    public class EnemyWeaponController : WeaponController
     {
-        
-    }
+        private Transform _target;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        private void Start()
+        {
+            InstallContex(GetComponentInChildren<IShooter>());
+        }
+
+        public void InstallContex(Transform target)
+        {
+            _target = target;
+        }
+
+        protected override Vector3 GetTargetPos()
+        {
+            return _target.position;
+        }
     }
 }
+
+

@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace HalloGames.RavensRain.Gameplay.Perk
 {
-    public class WeaponPerkObject : MonoBehaviour, IPickable
+    public class WeaponPerkObject : BasePickable
     {
         [SerializeField] private WeaponData _defaultWeaponData;
         [SerializeField] private MeshRenderer _meshRenderer;
@@ -26,7 +26,7 @@ namespace HalloGames.RavensRain.Gameplay.Perk
             _meshRenderer.materials = weaponData.Materials;
         }
 
-        public void PickUp(CharacterEntity characterEntity, out bool needToRemove)
+        public override void PickUp(CharacterEntity characterEntity, out bool needToRemove)
         {
             needToRemove = false;
             ChangeWeaponData(characterEntity.WeaponDataWrapper.SetWeaponData(_currentData));

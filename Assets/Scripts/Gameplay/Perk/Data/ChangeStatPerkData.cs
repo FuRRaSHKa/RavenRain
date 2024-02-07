@@ -10,11 +10,12 @@ namespace HalloGames.RavensRain.Gameplay.Perk.Data
     {
         [SerializeField] private float _value;
         [SerializeField] private ModifyType _modifyType;
+        [SerializeField] private float _perStackValue;
         [SerializeField] private StatTypesEnum _statTypes;
 
         public override IPerk GetPerk(CharacterEntity characterEntity)
         {
-            return new ChangeStatPerk(characterEntity, perkDescription ,_modifyType, name, _value, _statTypes);
+            return new ChangeStatPerk(characterEntity, perkDescription ,_modifyType, name, _value, _statTypes, _perStackValue);
         }
     }
 

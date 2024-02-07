@@ -22,6 +22,7 @@ namespace HalloGames.RavensRain.Gameplay.Perk.Data
         public string ShortDescription;
         public string LoreDescription;
         public Sprite Sprite;
+        public Color Color;
     }
 }
 

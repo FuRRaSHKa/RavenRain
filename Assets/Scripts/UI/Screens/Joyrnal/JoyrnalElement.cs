@@ -8,6 +8,7 @@ namespace HalloGames.RavensRain.UI.Joyrnal
 {
     public class JoyrnalElement : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
+        [SerializeField] private Image _back;
         [SerializeField] private Image _image;
         [SerializeField] private Image _hoverImage;
 
@@ -34,6 +35,7 @@ namespace HalloGames.RavensRain.UI.Joyrnal
         {
             _description = descriptionStruct;
             _image.sprite = descriptionStruct.Sprite;
+            _back.color = descriptionStruct.Color;
         }
     }
 }

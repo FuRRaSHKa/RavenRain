@@ -1,4 +1,5 @@
 using HalloGames.Architecture.Services;
+using HalloGames.RavensRain.Management.Enemy;
 using HalloGames.RavensRain.Management.Factories;
 using HalloGames.RavensRain.Management.Input;
 using HalloGames.RavensRain.Management.ProjectileManagement;
@@ -10,6 +11,8 @@ namespace HalloGames.RavensRain.Management.Level
     {
         [SerializeField] private InputController _inputController;
         [SerializeField] private ProjectileSystem _projectileSystem;
+        [SerializeField] private EnemyContainer _enemyContainer;
+        [SerializeField] private EnemyLevelManager _enemyLevelManager;
 
         private ServiceProvider _serviceProvider;
 
@@ -28,6 +31,12 @@ namespace HalloGames.RavensRain.Management.Level
 
             BulletFactory bulletFactory = new BulletFactory(_serviceProvider);
             _serviceProvider.AddService<IProjectileFactory>(bulletFactory);
+
+            EnemyFactory enemyFactory = new EnemyFactory(_serviceProvider);
+            _serviceProvider.AddService<ICharacterFactory>(enemyFactory);
+
+            _serviceProvider.AddService<IEnemyContainer>(_enemyContainer);
+            _serviceProvider.AddService<IEnemyLevelManager>(_enemyLevelManager);
         }
 
         public IServiceProvider GetServiceProvider()

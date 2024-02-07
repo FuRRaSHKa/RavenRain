@@ -1,5 +1,4 @@
 using HalloGames.Architecture.PoolSystem;
-using HalloGames.RavensRain.Gameplay.Characters;
 using HalloGames.RavensRain.Gameplay.Weapon.Projectile;
 using HalloGames.RavensRain.Management.Factories;
 using UnityEngine;

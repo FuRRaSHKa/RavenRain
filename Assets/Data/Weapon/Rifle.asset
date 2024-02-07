@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34b9f5a99733e6a459300658448d2a5e, type: 3}
   m_Name: Rifle
   m_EditorClassIdentifier: 
-  _damageCoeff: 2
+  _damageCoeff: 4
   _bulletsAmmount: 1
   _randomDirectionCoeff: 0
-  _rateOfFire: 2
+  _rateOfFire: 0.76
   _lifeTime: 1
   _bulletSpeed: 50
   _descriptionStruct:
@@ -23,6 +23,7 @@ MonoBehaviour:
     ShortDescription: Rifle
     LoreDescription: Lore
     Sprite: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
+    Color: {r: 0, g: 0, b: 0, a: 0}
   _mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
   _materials:
   - {fileID: 1027132503599742526, guid: 1961bd47f0638984b81c64c0235581f3, type: 3}

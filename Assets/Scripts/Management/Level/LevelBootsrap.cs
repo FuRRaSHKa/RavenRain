@@ -1,5 +1,6 @@
 using HalloGames.Architecture.Services;
 using HalloGames.RavensRain.Gameplay.Player;
+using HalloGames.RavensRain.Management.Enemy;
 using HalloGames.RavensRain.Management.Factories;
 using HalloGames.RavensRain.Management.Input;
 using UnityEngine;
@@ -11,6 +12,8 @@ namespace HalloGames.RavensRain.Management.Level
     {
         [SerializeField] private LevelContextBuilder _contextBuilder;
         [SerializeField] private PlayerInitilizer _playerInitilizer;
+        [SerializeField] private EncounterManager _encounterManager;
+        [SerializeField] private EnemyLevelManager _enemyLevelManager;
 
         private IServiceProvider _serviceProvider;
 
@@ -23,7 +26,9 @@ namespace HalloGames.RavensRain.Management.Level
 
         private void InitGame()
         {
+            _enemyLevelManager.SetContainer(_serviceProvider.GetService<IEnemyContainer>());    
             _playerInitilizer.InitPlayer(_serviceProvider.GetService<IActionInput>(), _serviceProvider.GetService<IValueInput>(), _serviceProvider.GetService<IProjectileFactory>());
+            _encounterManager.SetService(_serviceProvider.GetService<ICharacterFactory>());
         }
     }
 
