@@ -13,13 +13,13 @@ namespace HalloGames.RavensRain.Gameplay.Enemy
 
         private void Update()
         {
-            if (target == null)
+            if (Target == null)
             {
                 _weaponController.DisableWeapon();
                 return;
             }
 
-            float curDistance = (target.position - transform.position).magnitude;
+            float curDistance = (Target.position - transform.position).magnitude;
             if (curDistance <= _shootDistance)
                 _weaponController.EnableWeapon();
             else
@@ -29,11 +29,13 @@ namespace HalloGames.RavensRain.Gameplay.Enemy
 
     public abstract class EnemyBrain : MonoBehaviour
     {
-        protected Transform target;
+        private Transform _target;
+
+        protected Transform Target => _target;
 
         public void SetTarget(Transform target)
         {
-            this.target = target;
+            _target = target;
         }
     }
 }

@@ -230,7 +230,7 @@ MonoBehaviour:
   groundMask:
     serializedVersion: 2
     m_Bits: 64
-  _runSpeedCoeff: 2
+  _runSpeedCoeff: 1.96
   _dashSpeedCoeff: 2
   _dashDuration: 0.3
   _dashCooldown: 1
@@ -346,7 +346,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _character: {fileID: 1956232083412878475}
-  _restore: 0
+  _restore: 1
 --- !u!136 &3477666734116536693
 CapsuleCollider:
   m_ObjectHideFlags: 0

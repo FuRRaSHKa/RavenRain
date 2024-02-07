@@ -6,7 +6,9 @@ namespace HalloGames.RavensRain.Gameplay.Player.States
 {
     public abstract class PlayerState : IPriorityState
     {
-        protected readonly PlayerEntity playerEntity;
+        private readonly PlayerEntity _playerEntity;
+
+        protected PlayerEntity PlayerEntity => _playerEntity;
 
         public abstract int Priority
         {
@@ -15,7 +17,7 @@ namespace HalloGames.RavensRain.Gameplay.Player.States
 
         public PlayerState(PlayerEntity playerEntity)
         {
-            this.playerEntity = playerEntity;
+            this._playerEntity = playerEntity;
         }
 
         public virtual void Enter()
@@ -48,12 +50,12 @@ namespace HalloGames.RavensRain.Gameplay.Player.States
     
         public override void Enter()
         {
-            playerEntity.WeaponController.EnableWeapon();
+            PlayerEntity.WeaponController.EnableWeapon();
         }
 
         public override void Exit()
         {
-            playerEntity.WeaponController.DisableWeapon();
+            PlayerEntity.WeaponController.DisableWeapon();
         }
     }
 
@@ -67,12 +69,12 @@ namespace HalloGames.RavensRain.Gameplay.Player.States
 
         public override void Enter()
         {
-            playerEntity.PlayerMovement.SetRun(true);
+            PlayerEntity.PlayerMovement.SetRun(true);
         }
 
         public override void Exit()
         {
-            playerEntity.PlayerMovement.SetRun(false);
+            PlayerEntity.PlayerMovement.SetRun(false);
         }
     }
 
@@ -86,12 +88,12 @@ namespace HalloGames.RavensRain.Gameplay.Player.States
 
         public override void Enter()
         {
-            playerEntity.PlayerMovement.SetDash(true);
+            PlayerEntity.PlayerMovement.SetDash(true);
         }
 
         public override void Exit()
         {
-            playerEntity.PlayerMovement.SetDash(false);
+            PlayerEntity.PlayerMovement.SetDash(false);
         }
     }
 }

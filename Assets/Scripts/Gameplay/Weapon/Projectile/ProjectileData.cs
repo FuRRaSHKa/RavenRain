@@ -57,7 +57,7 @@ namespace HalloGames.RavensRain.Gameplay.Weapon.Projectile
             if (collider.CompareTag(_projectileStruct.TargetTag) && collider.TryGetComponent(out IDamageable damageable))
             {
                 float chance = Random.value;
-a                if (chance < _projectileStruct.CritChance)
+                if (chance < _projectileStruct.CritChance)
                     damageable.Damage(_projectileStruct.Damage * 2);
                 else
                     damageable.Damage(_projectileStruct.Damage);

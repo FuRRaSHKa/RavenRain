@@ -26,7 +26,7 @@ namespace HalloGames.RavensRain.UI.Joyrnal
         {
             List<DescriptionStruct> descriptionStructs = new List<DescriptionStruct>();
             descriptionStructs.AddRange(PerkDataBase.Instance.WeaponDatas.Select(s => s.DescriptionStruct));
-            descriptionStructs.AddRange(PerkDataBase.Instance.PerkDatas.Select(s => s.DescriptionStruct));
+            descriptionStructs.AddRange(PerkDataBase.Instance.PerkDatas.Select(s => s.PerkDescription));
 
             foreach(var descriptionStruct in descriptionStructs)
             {

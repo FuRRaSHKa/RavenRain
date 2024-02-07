@@ -13,7 +13,7 @@ namespace HalloGames.RavensRain.Gameplay.Perk.Data
 
         public override IPerk GetPerk(CharacterEntity characterEntity)
         {
-            return new SunglassPerk(characterEntity, perkDescription, _value, name);
+            return new SunglassPerk(characterEntity, PerkDescription, _value, name);
         }
     }
 }
@@ -25,7 +25,7 @@ namespace HalloGames.RavensRain.Gameplay.Perk
         private readonly SunglassesMod _statModifyer;
         private readonly string _name;
         private readonly float _modValue;
-        protected readonly StatTypesEnum _type;
+        private readonly StatTypesEnum _type;
 
         private int _stackCount = 1;
         private IStopable _stopable;
@@ -38,33 +38,32 @@ namespace HalloGames.RavensRain.Gameplay.Perk
             _statModifyer = new SunglassesMod();
 
             characterEntity.CharacterHealth.OnDamage += DisableBaff;
-
         }
 
         private void DisableBaff()
         {
             _statModifyer.SetCurValue(1);
-            characterEntity.CharacterDataWrapper.UpdateModValue(_type);
+            CharacterEntity.CharacterDataWrapper.UpdateModValue(_type);
 
             _stopable?.Stop();
-            _stopable = RoutineManager.CreateRoutine(characterEntity).Wait(3f, SetValue).Start();
+            _stopable = RoutineManager.CreateRoutine(CharacterEntity).Wait(3f, SetValue).Start();
         }
 
         public override void Apply()
         {
-            characterEntity.CharacterDataWrapper.AddMod(_type, _name, _statModifyer);
+            CharacterEntity.CharacterDataWrapper.AddMod(_type, _name, _statModifyer);
             SetValue();
         }
 
         public override void Remove()
         {
-            characterEntity.CharacterDataWrapper.RemoveMod(_type, _name);
+            CharacterEntity.CharacterDataWrapper.RemoveMod(_type, _name);
         }
 
         private void SetValue()
         {
             _statModifyer.SetCurValue(_modValue * _stackCount);
-            characterEntity.CharacterDataWrapper.UpdateModValue(_type);
+            CharacterEntity.CharacterDataWrapper.UpdateModValue(_type);
         }
 
         public override void Stack()

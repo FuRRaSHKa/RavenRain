@@ -23,54 +23,65 @@ namespace HalloGames.Architecture.StateMachine
 
         public void NextState()
         {
-            IState targetState = states.Values.SkipWhile(k => k != currentState).Skip(1).DefaultIfEmpty(states[_firstState]).FirstOrDefault();
+            IState targetState = States.Values.SkipWhile(k => k != CurrentState).Skip(1).DefaultIfEmpty(States[_firstState]).FirstOrDefault();
             ChangeState(targetState);
         }
 
         public void PrevState()
         {
-            IState targetState = states.Values.TakeWhile(k => k != currentState).DefaultIfEmpty(states[_lastState]).LastOrDefault();
+            IState targetState = States.Values.TakeWhile(k => k != CurrentState).DefaultIfEmpty(States[_lastState]).LastOrDefault();
             ChangeState(targetState);
         }
 
         public void Dispose()
         {
-            currentState?.Exit();
-            currentState = null;
+            CurrentState?.Exit();
+            CurrentState = null;
         }
     }
 
     public class StateMachine<TState> : IStateMachine where TState : IState
     {
-        protected Dictionary<Type, TState> states;
-
-        protected TState currentState;
+        private Dictionary<Type, TState> _states;
+        private TState _currentState;
 
         public event Action<string> OnStateChange;
 
-        public Type CurrentState => currentState.GetType();
+        protected Dictionary<Type, TState> States => _states;
+        protected TState CurrentState {
+            get
+            {
+                return _currentState;
+            }
+            set
+            {
+                _currentState = value;
+            }
+        }
+
+        public Type CurrentStateType => _currentState.GetType();
 
         public void InitStates(Dictionary<Type, TState> states)
         {
-            this.states = states;
+            this._states = states;
         }
 
         public void ChangeState(Type type)
         {
-            currentState?.Exit();
-            currentState = states[type];
+            _currentState?.Exit();
+            _currentState = _states[type];
 
             OnStateChange?.Invoke(type.ToString());
-            currentState?.Enter();
+            _currentState?.Enter();
         }
 
         protected void ChangeState(TState state)
         {
-            currentState?.Exit();
-            currentState = state;
+            _currentState?.Exit();
+            _currentState = state;
 
             OnStateChange?.Invoke(state.GetType().ToString());
-            currentState?.Enter();
+            _currentState?.Enter();
         }
     }
 

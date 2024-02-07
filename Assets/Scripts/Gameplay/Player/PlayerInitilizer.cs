@@ -36,7 +36,6 @@ namespace HalloGames.RavensRain.Gameplay.Player
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
-
     }
 
 }

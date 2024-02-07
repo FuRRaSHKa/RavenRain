@@ -13362,10 +13362,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1398524702886531781, guid: b146cf0a14eef89448a69955aa2859fa, type: 3}
-      propertyPath: _runSpeedCoeff
-      value: 1.96
-      objectReference: {fileID: 0}
     - target: {fileID: 4079648995761703191, guid: b146cf0a14eef89448a69955aa2859fa, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -13409,10 +13405,6 @@ PrefabInstance:
     - target: {fileID: 6518364295364525885, guid: b146cf0a14eef89448a69955aa2859fa, type: 3}
       propertyPath: m_Name
       value: Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 8974596631538923273, guid: b146cf0a14eef89448a69955aa2859fa, type: 3}
-      propertyPath: _restore
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

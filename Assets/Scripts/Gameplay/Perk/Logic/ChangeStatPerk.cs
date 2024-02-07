@@ -25,21 +25,21 @@ namespace HalloGames.RavensRain.Gameplay.Perk.Logic
 
         public override void Apply()
         {
-            characterEntity.CharacterDataWrapper.AddMod(_type, _name, _statModifyer);
+            CharacterEntity.CharacterDataWrapper.AddMod(_type, _name, _statModifyer);
         }
 
         public override void Remove()
         {
-            characterEntity.CharacterDataWrapper.RemoveMod(_type, _name);
+            CharacterEntity.CharacterDataWrapper.RemoveMod(_type, _name);
         }
 
         public override void Stack()
         {
-            stackCount++;
-            float value = _modValue + stackCount * _perStackValue;
+            SetStackCount(1 + StackCount);
+            float value = _modValue + StackCount * _perStackValue;
 
             _statModifyer.SetValue(value);
-            characterEntity.CharacterDataWrapper.UpdateModValue(_type);
+            CharacterEntity.CharacterDataWrapper.UpdateModValue(_type);
         }
     }
 

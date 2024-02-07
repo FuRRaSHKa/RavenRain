@@ -7,15 +7,18 @@ namespace HalloGames.RavensRain.Gameplay.Perk
     {
         private readonly DescriptionStruct _description;
 
-        protected readonly CharacterEntity characterEntity;
+        private readonly CharacterEntity _characterEntity;
 
-        protected int stackCount = 1;
+        private int _stackCount = 1;
+
+        protected CharacterEntity CharacterEntity => _characterEntity;
+        protected int StackCount => _stackCount;
 
         public BasePerk(CharacterEntity characterEntity, DescriptionStruct description)
         {
             _description = description; 
 
-            this.characterEntity = characterEntity;
+            _characterEntity = characterEntity;
         }
 
         public DescriptionStruct PerkDescription => _description;
@@ -25,6 +28,11 @@ namespace HalloGames.RavensRain.Gameplay.Perk
         public abstract void Remove();
 
         public abstract void Stack();
+
+        protected void SetStackCount(int value)
+        {
+            _stackCount = value;
+        }
     }
 
     public interface IPerk : IApplyable, IStackable, IRemovable

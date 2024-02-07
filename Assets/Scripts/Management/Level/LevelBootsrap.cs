@@ -10,7 +10,7 @@ namespace HalloGames.RavensRain.Management.Level
 
     public class LevelBootsrap : MonoBehaviour
     {
-        [SerializeField] private LevelContextBuilder _contextBuilder;
+        [SerializeField] private ContextBuilder _contextBuilder;
         [SerializeField] private PlayerInitilizer _playerInitilizer;
         [SerializeField] private EncounterManager _encounterManager;
         [SerializeField] private EnemyLevelManager _enemyLevelManager;

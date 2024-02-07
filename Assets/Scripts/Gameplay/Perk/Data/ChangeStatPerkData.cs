@@ -15,7 +15,7 @@ namespace HalloGames.RavensRain.Gameplay.Perk.Data
 
         public override IPerk GetPerk(CharacterEntity characterEntity)
         {
-            return new ChangeStatPerk(characterEntity, perkDescription ,_modifyType, name, _value, _statTypes, _perStackValue);
+            return new ChangeStatPerk(characterEntity, PerkDescription ,_modifyType, name, _value, _statTypes, _perStackValue);
         }
     }
 
