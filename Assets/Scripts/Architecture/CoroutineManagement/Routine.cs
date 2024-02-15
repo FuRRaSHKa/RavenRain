@@ -12,6 +12,8 @@ namespace HalloGames.Architecture.CoroutineManagement
         private Action _onEndAction;
         private Coroutine _coroutine;
 
+        public bool IsRunning => _coroutine != null;
+
         public Routine(MonoBehaviour coroutineHost, IEnumerator enumerator) : this(coroutineHost)
         {
             _coroutineHost = coroutineHost;
@@ -38,7 +40,6 @@ namespace HalloGames.Architecture.CoroutineManagement
             if (_coroutine != null && _coroutineHost != null)
             {
                 _coroutineHost.StopCoroutine(_coroutine);
-                _coroutine = null;
             }
 
             _onEndAction = null;
@@ -55,6 +56,7 @@ namespace HalloGames.Architecture.CoroutineManagement
         public Routine Finally(Action completeCallback)
         {
             _onEndAction = completeCallback;
+
             return this;
         }
 
@@ -62,6 +64,7 @@ namespace HalloGames.Architecture.CoroutineManagement
         {
             _onEndAction?.Invoke();
             _onEndAction = null;
+
             _coroutine = null;
         }
 

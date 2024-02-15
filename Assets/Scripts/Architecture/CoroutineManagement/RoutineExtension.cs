@@ -165,6 +165,21 @@ namespace HalloGames.Architecture.CoroutineManagement
             }
         }
 
+        public static Routine AnimatePos(this Routine routine, Vector3 startValue, Vector3 endValue, Transform transform, AnimationCurve ease, float duration)
+        {
+            return AnimateValue(routine, startValue, endValue, SetPos, LerpWithEase, duration);
+
+            Vector3 LerpWithEase(Vector3 start, Vector3 end, float value)
+            {
+                return Vector3.Lerp(start, end, ease.Evaluate(value));
+            }
+
+            void SetPos(Vector3 pos)
+            {
+                transform.position = pos;
+            }
+        }
+
         public static Routine AnimateValue<T>(this Routine routine, T startValue, T endValue, Action<T> setter, Func<T, T, float, T> lerp, float duration)
         {
             if (duration <= 0f)
