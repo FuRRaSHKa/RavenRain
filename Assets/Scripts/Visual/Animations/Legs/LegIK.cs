@@ -7,13 +7,13 @@ namespace HalloGames.RavensRain.Visuals.Animations.IK
 {
     public class LegIKController
     {
-        private readonly LegIKTimer _iKTimer;
+        private readonly ILegNotifyer _legNotifyer;
         private readonly LegIkMover _ikMover;
         private readonly LegIKRaycastController _ikRaycastController;
 
-        public LegIKController(LegIkMover legIkMover, LegIKTimer iKTimer, LegIKRaycastController legIKRaycastController)
+        public LegIKController(LegIkMover legIkMover, ILegNotifyer legNotifyer, LegIKRaycastController legIKRaycastController)
         {
-            _iKTimer = iKTimer;
+            _legNotifyer = legNotifyer;
             _ikMover = legIkMover;
             _ikRaycastController = legIKRaycastController;
 
@@ -22,18 +22,24 @@ namespace HalloGames.RavensRain.Visuals.Animations.IK
 
         private void Subscribe()
         {
-            _iKTimer.OnTiming += RaycastLeg;
+            _legNotifyer.Subscribe(RaycastLeg);
         }
 
         public void Tick(float deltaTime)
         {
             _ikRaycastController.Tick(deltaTime);
-            _iKTimer.Tick(deltaTime);
+            _legNotifyer.Tick(deltaTime);
+            _ikMover.Tick(deltaTime);
         }
 
-        public void Reset()
+        public void PhysicTick()
         {
-            _iKTimer.ResetTiming();
+            _ikMover.PhysicTick();
+        }
+
+        public void Start()
+        {
+            _legNotifyer.Start();
         }
 
         private void RaycastLeg()
@@ -48,6 +54,16 @@ namespace HalloGames.RavensRain.Visuals.Animations.IK
 
             _ikMover.MoveLeg(targetPos);
         }
+
+        public void EndMoving()
+        {
+            _legNotifyer.End();
+        }
+
+        public void StartMoving()
+        {
+            _legNotifyer.Start();
+        }
     }
 
     public class LegIKRaycastController
@@ -55,7 +71,7 @@ namespace HalloGames.RavensRain.Visuals.Animations.IK
         private readonly Transform _parent;
         private readonly IRaycastable _ikRaycaster;
 
-        private readonly float _legRadius;
+        private readonly float _legStepRadius;
 
         private Vector3 _prevParentPos;
         private Vector3 _targetRaycastOrigin;
@@ -65,10 +81,10 @@ namespace HalloGames.RavensRain.Visuals.Animations.IK
 
         private float _raycastDistance;
 
-        public LegIKRaycastController(Transform parent, Transform ikTarget, IRaycastable raycastable, float legRadius)
+        public LegIKRaycastController(Transform parent, Transform ikTarget, IRaycastable raycastable, float legStepRadius)
         {
             _parent = parent;
-            _legRadius = legRadius;
+            _legStepRadius = legStepRadius;
             _ikRaycaster = raycastable;
 
             BakePoses(ikTarget);
@@ -87,7 +103,7 @@ namespace HalloGames.RavensRain.Visuals.Animations.IK
             _targetRaycastOrigin = targetRaycastPos + _parent.up;
             _targetRaycastDirection = (targetRaycastPos - _targetRaycastOrigin);
 
-            _raycastDistance = _targetRaycastDirection.magnitude + _legRadius;
+            _raycastDistance = _targetRaycastDirection.magnitude + _legStepRadius;
         }
 
         public void Raycast(Action<bool, Vector3> callback)
@@ -114,48 +130,7 @@ namespace HalloGames.RavensRain.Visuals.Animations.IK
 
             Vector3 upMask = _parent.up;
             _moveDirection -= Vector3.Scale(_moveDirection, upMask);
-            _moveDirection = _moveDirection.normalized * _legRadius;
-        }
-    }
-
-    public class LegIKTimer
-    {
-        private readonly float _eventTiming;
-        private readonly float _resetTiming;
-
-        private float _currentTiming;
-
-        private bool _eventSended;
-
-        public event Action OnTiming;
-
-        public LegIKTimer(float eventTiming, float resetTiming)
-        {
-            _eventTiming = eventTiming;
-            _resetTiming = resetTiming;
-
-            _eventSended = false;
-            _currentTiming = 0;
-        }
-
-        public void ResetTiming()
-        {
-            _currentTiming = 0;
-            _eventSended = false;
-        }
-
-        public void Tick(float deltaTime)
-        {
-            _currentTiming += deltaTime;
-
-            if (_currentTiming >= _eventTiming && !_eventSended)
-            {
-                _eventSended = true;
-                OnTiming?.Invoke();
-            }
-
-            if (_currentTiming >= _resetTiming)
-                ResetTiming();
+            _moveDirection = _moveDirection.normalized * _legStepRadius;
         }
     }
 
@@ -165,18 +140,23 @@ namespace HalloGames.RavensRain.Visuals.Animations.IK
         private readonly Transform _legIkTarget;
         private readonly AnimationCurve _moveCurve;
         private readonly AnimationCurve _yCurve;
+        private readonly LegIKRaycastController _legIKRaycastController;
 
         private readonly float _yMod;
         private readonly float _moveTime;
         private readonly float _moveThreshold;
 
         private Vector3 _startPosition;
+        private Vector3 _currentPos;
         private Vector3 _targetPos;
 
-        private IStopable _moveRoutine;
+        private float _currentTime;
 
-        public LegIkMover(MonoBehaviour parent, Transform legIKTarget, AnimationCurve moveCurve, AnimationCurve yCurve, float moveTime, float yMod, float moveThreshold)
+        private bool _isMoving = false;
+
+        public LegIkMover(MonoBehaviour parent, Transform legIKTarget, LegIKRaycastController legIKRaycastController, AnimationCurve moveCurve, AnimationCurve yCurve, float moveTime, float yMod, float moveThreshold)
         {
+            _legIKRaycastController = legIKRaycastController;
             _legIkTarget = legIKTarget;
             _moveCurve = moveCurve;
             _yCurve = yCurve;
@@ -188,24 +168,59 @@ namespace HalloGames.RavensRain.Visuals.Animations.IK
 
         public void MoveLeg(Vector3 targetPos)
         {
-            if (targetPos == _targetPos || (targetPos - _targetPos).magnitude < _moveThreshold)
+            if (targetPos == _currentPos || (targetPos - _currentPos).magnitude < _moveThreshold)
                 return;
 
-            _startPosition = _legIkTarget.position;
-            _targetPos = targetPos;
+            _startPosition = _legIkTarget.position - _parent.transform.position;
+            _currentPos = _startPosition;
+            _targetPos = targetPos - _parent.transform.position;
 
-            _moveRoutine?.Stop();
-            _moveRoutine = RoutineManager.CreateRoutine(_parent).AnimateValue(_startPosition, _targetPos, SetPos, LerpWithCurves, _moveTime).Start();
+            _isMoving = true;
+            _currentTime = 0;
+        }
 
-            Vector3 LerpWithCurves(Vector3 start, Vector3 end, float value)
-            {
-                return Vector3.Lerp(start, end, _moveCurve.Evaluate(value)) + new Vector3(0, _yCurve.Evaluate(value) * _yMod, 0);
-            }
+        private Vector3 LerpPos(Vector3 start, Vector3 end, float value)
+        {
+            return Vector3.Lerp(start, end, _moveCurve.Evaluate(value)) + new Vector3(0, _yCurve.Evaluate(value) * _yMod, 0);
+        }
 
-            void SetPos(Vector3 pos)
-            {
-                _legIkTarget.position = pos;
-            }
+        private void SetPos(Vector3 pos)
+        {
+            _currentPos = pos + _parent.transform.position;
+            _legIkTarget.position = _currentPos;
+        }
+
+        public void Tick(float deltaTime)
+        {
+            if (!_isMoving)
+                return;
+
+            _currentTime += deltaTime;
+            if (_currentTime >= _moveTime)
+                _isMoving = false;
+
+            SetPos(LerpPos(_startPosition, _targetPos, _currentTime / _moveTime));
+        }
+
+        public void PhysicTick()
+        {
+            if (!_isMoving)
+                return;
+
+            CheckTargetPos();
+        }
+
+        private void CheckTargetPos()
+        {
+            _legIKRaycastController.Raycast(UpdateTargetPos);
+        }
+
+        private void UpdateTargetPos(bool result, Vector3 targetPos)
+        {
+            if (!result || !_isMoving)
+                return;
+
+            _targetPos = targetPos - _parent.transform.position;
         }
     }
 }

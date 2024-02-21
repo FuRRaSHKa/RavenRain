@@ -48,7 +48,6 @@ namespace HalloGames.RavensRain.Gameplay.Player.Movement
             _characterController = GetComponent<CharacterController>();
 
             _playerEntity.CharacterDataWrapper.OnStatChanged += CalculateSpeed;
-
         }
 
         private void Gravity()

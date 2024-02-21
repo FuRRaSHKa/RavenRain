@@ -12,6 +12,7 @@ namespace HalloGames.RavensRain.Visuals.Animations.Walk
     public class WalkAnimController : MonoBehaviour
     {
         [SerializeField] private float _radius;
+        [SerializeField] private float _stepRadius;
         [SerializeField] private LayerMask _targetLayer;
         [SerializeField] private float _moveThreshold;
 
@@ -22,15 +23,19 @@ namespace HalloGames.RavensRain.Visuals.Animations.Walk
         [SerializeField] private float _yMod;
 
         [Header("Legs Setttings")]
-        [SerializeField] private float _updateTiming;
         [SerializeField] private LegIKData[] _legIKDatas;
 
         private LegIKController[] _legIKs;
         private IkRaycaster _raycaster;
 
+        private bool _isMoving;
+        private Vector3 _prevPos;
+
         private void Awake()
         {
             InitLegs();
+
+            _prevPos = transform.position;
         }
 
         private void OnDrawGizmosSelected()
@@ -51,16 +56,19 @@ namespace HalloGames.RavensRain.Visuals.Animations.Walk
 
             for (int i = 0; i < _legIKs.Length; i++)
             {
-                LegIkMover legIkMover = new LegIkMover(this, _legIKDatas[i].LegIKTarget, _moveCurve, _stepYCurve, _stepDuration, _yMod, _moveThreshold);
-                LegIKTimer legIKTimer = new LegIKTimer(_legIKDatas[i].Timing, _updateTiming);
-                LegIKRaycastController legIKRaycastController = new LegIKRaycastController(transform, _legIKDatas[i].LegIKTarget, _raycaster, _radius);
+                LegIKDistanceTracker iKLegDistanceTracker = new LegIKDistanceTracker(transform, _legIKDatas[i].LegIKTarget, _radius, _legIKDatas[i].Timing);
+                LegIKRaycastController legIKRaycastController = new LegIKRaycastController(transform, _legIKDatas[i].LegIKTarget, _raycaster, _stepRadius);
 
-                _legIKs[i] = new LegIKController(legIkMover, legIKTimer, legIKRaycastController);
+                LegIkMover legIkMover = new LegIkMover(this, _legIKDatas[i].LegIKTarget, legIKRaycastController, _moveCurve, _stepYCurve, _stepDuration, _yMod, _moveThreshold);
+
+                _legIKs[i] = new LegIKController(legIkMover, iKLegDistanceTracker, legIKRaycastController);
             }
         }
 
         private void Update()
         {
+            CheckMovement();
+
             float deltaTime = Time.deltaTime;
 
             for (int i = 0; i < _legIKs.Length; i++)
@@ -69,6 +77,43 @@ namespace HalloGames.RavensRain.Visuals.Animations.Walk
             }
 
             _raycaster.ExecuteRaycasts();
+        }
+
+        private void FixedUpdate()
+        {
+            for (int i = 0; i < _legIKs.Length; i++)
+            {
+                _legIKs[i].PhysicTick();
+            }
+        }
+
+        private void CheckMovement()
+        {
+            float moveDistance = (_prevPos - transform.position).magnitude;
+            _prevPos = transform.position;
+
+            if (_isMoving && moveDistance == 0)
+                EndMoving();
+            else if (!_isMoving && moveDistance > 0)
+                StartMoving();
+        }
+
+        private void StartMoving()
+        {
+            _isMoving = true;
+            for (int i = 0; i < _legIKs.Length; i++)
+            {
+                _legIKs[i].StartMoving();
+            }
+        }
+
+        private void EndMoving()
+        {
+            _isMoving = false;
+            for (int i = 0; i < _legIKs.Length; i++)
+            {
+                _legIKs[i].EndMoving();
+            }
         }
     }
 
